@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NIFTY Option Risk Dashboard</title>
+<style>
+body{
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg,#020617,#0f172a);
+    color:#e5e7eb;
+    margin:0;
+    padding:0;
+}
+.container{
+    max-width:420px;
+    margin:40px auto;
+    background:#020617;
+    padding:28px;
+    border-radius:16px;
+    box-shadow:0 0 40px rgba(0,0,0,.7);
+}
+h2{
+    text-align:center;
+    color:#38bdf8;
+    margin-bottom:22px;
+}
+.grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:12px;
+}
+label{
+    font-size:13px;
+    opacity:.9;
+}
+input{
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:none;
+    font-size:15px;
+}
+button{
+    margin-top:18px;
+    padding:12px;
+    width:100%;
+    border:none;
+    border-radius:10px;
+    background:#22c55e;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+}
+.card{
+    margin-top:20px;
+    background:#020617;
+    border:1px solid #1e293b;
+    padding:14px;
+    border-radius:12px;
+    font-size:14px;
+}
+.row{
+    display:flex;
+    justify-content:space-between;
+    margin:6px 0;
+}
+.green{color:#22c55e;font-weight:700;}
+.red{color:#ef4444;font-weight:700;}
+.blue{color:#38bdf8;font-weight:700;}
+.warn{
+    margin-top:10px;
+    background:#3f1d1d;
+    padding:10px;
+    border-radius:8px;
+    color:#fecaca;
+    font-size:13px;
+}
+.footer{
+    text-align:center;
+    margin-top:14px;
+    font-size:11px;
+    opacity:.6;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>NIFTY Risk Dashboard</h2>
+
+<div class="grid">
+<label>Capital (₹)</label>
+<input type="number" id="capital" value="100000">
+
+<label>Risk % per Trade</label>
+<input type="number" id="riskPercent" value="1" step="0.1">
+
+<label>NIFTY Lot Size</label>
+<input type="number" id="lotSize" value="65">
+
+<label>Entry Price</label>
+<input type="number" id="entryPrice" placeholder="Example: 120">
+
+<label>Stop Loss (Points)</label>
+<input type="number" id="slPoints" placeholder="Example: 20">
+</div>
+
+<button onclick="calculate()">Calculate Trade</button>
+
+<div class="card" id="output"></div>
+<div class="footer">Professional Risk Management Dashboard</div>
+</div>
+
+<script>
+function calculate(){
+    const capital=parseFloat(capitalEl.value);
+    const riskPercent=parseFloat(riskPercentEl.value);
+    const lotSize=parseInt(lotSizeEl.value);
+    const entry=parseFloat(entryPriceEl.value);
+    const sl=parseFloat(slPointsEl.value);
+
+    if(!capital||!riskPercent||!lotSize||!entry||!sl||sl<=0){
+        output.innerHTML="❌ Enter valid values";
+        return;
+    }
+
+    const riskAmount=capital*riskPercent/100;
+    const rawQty=riskAmount/sl;
+    const lots=Math.floor(rawQty/lotSize);
+    const qty=lots*lotSize;
+
+    const maxLoss=qty*sl;
+    const targetPts=sl*2;
+    const targetProfit=qty*targetPts;
+
+    const slPrice=entry-sl;
+    const targetPrice=entry+targetPts;
+
+    let warning="";
+    if(lots===0){
+        warning=`<div class="warn">
+        ⚠️ Risk ₹${riskAmount.toFixed(0)} insufficient for 1 lot.<br>
+        Minimum SL for 1 lot ≈ ${(riskAmount/lotSize).toFixed(2)} points
+        </div>`;
+    }
+
+    output.innerHTML=`
+    <div class="row"><span>Quantity</span><span class="blue">${qty}</span></div>
+    <div class="row"><span>Lots</span><span class="blue">${lots}</span></div>
+    <hr>
+    <div class="row"><span>Entry Price</span><span>${entry}</span></div>
+    <div class="row"><span>Stop Loss Price</span><span class="red">${slPrice.toFixed(2)}</span></div>
+    <div class="row"><span>Target Price (2R)</span><span class="green">${targetPrice.toFixed(2)}</span></div>
+    <hr>
+    <div class="row"><span>Max Loss</span><span class="red">₹${maxLoss.toFixed(2)}</span></div>
+    <div class="row"><span>Target Profit</span><span class="green">₹${targetProfit.toFixed(2)}</span></div>
+    ${warning}
+    `;
+}
+
+const capitalEl=document.getElementById("capital");
+const riskPercentEl=document.getElementById("riskPercent");
+const lotSizeEl=document.getElementById("lotSize");
+const entryPriceEl=document.getElementById("entryPrice");
+const slPointsEl=document.getElementById("slPoints");
+const output=document.getElementById("output");
+</script>
+
+</body>
+</html>
