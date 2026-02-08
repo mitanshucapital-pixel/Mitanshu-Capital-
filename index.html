@@ -1,229 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Mitanshu Capital</title>
 
 <style>
-/* ===== GLOBAL ===== */
-body{
-    margin:0;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-    background: linear-gradient(135deg,#020617,#0f172a);
-    color:#e5e7eb;
-    padding-top:56px;
-    padding-bottom:60px;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg,#020617,#020617);
+  color: white;
 }
 
-/* ===== HEADER ===== */
-.app-header{
-    position:fixed;
-    top:0; left:0; right:0;
-    height:56px;
-    background:#020617;
-    border-bottom:1px solid #1e293b;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:18px;
-    font-weight:600;
-    color:#38bdf8;
-    z-index:1000;
+/* HEADER */
+.header {
+  text-align: center;
+  padding: 14px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #38bdf8;
+  border-bottom: 1px solid #0f172a;
 }
 
-/* ===== CONTAINER ===== */
-.container{
-    max-width:420px;
-    margin:16px auto;
-    background:#020617;
-    padding:24px;
-    border-radius:16px;
-    box-shadow:0 0 40px rgba(0,0,0,.6);
+/* PAGE */
+.page {
+  padding: 16px;
+  display: none;
 }
 
-h2{
-    text-align:center;
-    margin-bottom:20px;
+.page.active {
+  display: block;
 }
 
-/* ===== FORM ===== */
-.grid{
-    display:grid;
-    gap:12px;
-}
-label{
-    font-size:13px;
-    opacity:.9;
-}
-input{
-    width:100%;
-    padding:12px;
-    border-radius:10px;
-    border:none;
-    font-size:15px;
+/* INPUTS */
+label {
+  font-size: 14px;
+  color: #cbd5f5;
 }
 
-/* ===== BUTTON ===== */
-button{
-    margin-top:18px;
-    padding:14px;
-    width:100%;
-    border:none;
-    border-radius:12px;
-    background:#22c55e;
-    font-size:16px;
-    font-weight:700;
-    cursor:pointer;
+input {
+  width: 100%;
+  padding: 14px;
+  margin: 8px 0 16px 0;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
 }
 
-/* ===== RESULT CARD ===== */
-.card{
-    margin-top:20px;
-    background:#020617;
-    border:1px solid #1e293b;
-    padding:14px;
-    border-radius:12px;
-    font-size:14px;
-}
-.row{
-    display:flex;
-    justify-content:space-between;
-    margin:6px 0;
-}
-.green{color:#22c55e;font-weight:700;}
-.red{color:#ef4444;font-weight:700;}
-.blue{color:#38bdf8;font-weight:700;}
-
-.warn{
-    margin-top:10px;
-    background:#3f1d1d;
-    padding:10px;
-    border-radius:8px;
-    color:#fecaca;
-    font-size:13px;
+/* BUTTON */
+button.main-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: #22c55e;
+  color: black;
+  font-size: 18px;
+  font-weight: bold;
 }
 
-.footer{
-    text-align:center;
-    margin-top:14px;
-    font-size:11px;
-    opacity:.6;
+/* RESULT */
+.result {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #020617;
+  border: 1px solid #0f172a;
+  color: #94a3b8;
+  text-align: center;
 }
 
-/* ===== BOTTOM NAV ===== */
-.bottom-nav{
-    position:fixed;
-    bottom:0; left:0; right:0;
-    height:56px;
-    background:#020617;
-    border-top:1px solid #1e293b;
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #020617;
+  border-top: 1px solid #0f172a;
+  display: flex;
 }
-.bottom-nav button{
-    background:none;
-    border:none;
-    color:#94a3b8;
-    font-size:13px;
+
+.bottom-nav button {
+  flex: 1;
+  padding: 14px;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 14px;
 }
-.bottom-nav button.active{
-    color:#38bdf8;
-    font-weight:600;
+
+.bottom-nav button.active {
+  color: #38bdf8;
+  font-weight: bold;
 }
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<div class="app-header">Mitanshu Capital</div>
+<div class="header">Mitanshu Capital</div>
 
-<!-- CONTENT -->
-<div class="container">
-<h2>NIFTY Risk Dashboard</h2>
+<!-- HOME -->
+<div id="home" class="page active">
+  <h2>NIFTY Risk Dashboard</h2>
 
-<div class="grid">
-<label>Capital (₹)</label>
-<input type="number" id="capital" value="100000">
+  <label>Capital (₹)</label>
+  <input id="capital" value="100000"/>
 
-<label>Risk % per Trade</label>
-<input type="number" id="riskPercent" value="1" step="0.1">
+  <label>Risk % per Trade</label>
+  <input id="risk" value="1"/>
 
-<label>NIFTY Lot Size</label>
-<input type="number" id="lotSize" value="65">
+  <label>NIFTY Lot Size</label>
+  <input id="lot" value="65"/>
 
-<label>Entry Price</label>
-<input type="number" id="entryPrice" placeholder="Example: 120">
+  <label>Entry Price</label>
+  <input id="entry" placeholder="Example: 120"/>
 
-<label>Stop Loss (Points)</label>
-<input type="number" id="slPoints" placeholder="Example: 20">
+  <label>Stop Loss (Points)</label>
+  <input id="sl" placeholder="Example: 20"/>
+
+  <button class="main-btn" onclick="calculate()">Calculate Trade</button>
+
+  <div id="result" class="result"></div>
 </div>
 
-<button onclick="calculate()">Calculate Trade</button>
+<!-- RISK -->
+<div id="riskPage" class="page">
+  <h2>Risk Management</h2>
+  <p>This section will include:</p>
+  <ul>
+    <li>Max daily loss</li>
+    <li>Capital protection rules</li>
+    <li>Drawdown limits</li>
+  </ul>
+</div>
 
-<div class="card" id="output"></div>
-<div class="footer">Professional Risk Management Dashboard</div>
+<!-- PROFILE -->
+<div id="profile" class="page">
+  <h2>Profile</h2>
+  <p>Name: Mitanshu Capital</p>
+  <p>Version: 1.0</p>
+  <p>Status: Premium Ready</p>
 </div>
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
-<button class="active">Home</button>
-<button>Risk</button>
-<button>Profile</button>
+  <button class="active" onclick="openPage('home',this)">Home</button>
+  <button onclick="openPage('riskPage',this)">Risk</button>
+  <button onclick="openPage('profile',this)">Profile</button>
 </div>
 
 <script>
-const capitalEl=document.getElementById("capital");
-const riskPercentEl=document.getElementById("riskPercent");
-const lotSizeEl=document.getElementById("lotSize");
-const entryPriceEl=document.getElementById("entryPrice");
-const slPointsEl=document.getElementById("slPoints");
-const output=document.getElementById("output");
+function openPage(id, btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+
+  document.querySelectorAll('.bottom-nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
 
 function calculate(){
-    const capital=parseFloat(capitalEl.value);
-    const riskPercent=parseFloat(riskPercentEl.value);
-    const lotSize=parseInt(lotSizeEl.value);
-    const entry=parseFloat(entryPriceEl.value);
-    const sl=parseFloat(slPointsEl.value);
+  let capital = parseFloat(document.getElementById('capital').value);
+  let risk = parseFloat(document.getElementById('risk').value);
+  let lot = parseFloat(document.getElementById('lot').value);
+  let sl = parseFloat(document.getElementById('sl').value);
 
-    if(!capital||!riskPercent||!lotSize||!entry||!sl||sl<=0){
-        output.innerHTML="❌ Enter valid values";
-        return;
-    }
+  if(!sl){
+    document.getElementById('result').innerText = "Enter Stop Loss";
+    return;
+  }
 
-    const riskAmount=capital*riskPercent/100;
-    const rawQty=riskAmount/sl;
-    const lots=Math.floor(rawQty/lotSize);
-    const qty=lots*lotSize;
+  let riskAmt = capital * (risk/100);
+  let qty = Math.floor(riskAmt / (sl * lot));
 
-    const maxLoss=qty*sl;
-    const targetPts=sl*2;
-    const targetProfit=qty*targetPts;
-
-    const slPrice=entry-sl;
-    const targetPrice=entry+targetPts;
-
-    let warning="";
-    if(lots===0){
-        warning=`<div class="warn">
-        ⚠️ Risk ₹${riskAmount.toFixed(0)} insufficient for 1 lot.
-        </div>`;
-    }
-
-    output.innerHTML=`
-    <div class="row"><span>Quantity</span><span class="blue">${qty}</span></div>
-    <div class="row"><span>Lots</span><span class="blue">${lots}</span></div>
-    <hr>
-    <div class="row"><span>Stop Loss</span><span class="red">${slPrice.toFixed(2)}</span></div>
-    <div class="row"><span>Target (2R)</span><span class="green">${targetPrice.toFixed(2)}</span></div>
-    <hr>
-    <div class="row"><span>Max Loss</span><span class="red">₹${maxLoss.toFixed(2)}</span></div>
-    <div class="row"><span>Target Profit</span><span class="green">₹${targetProfit.toFixed(2)}</span></div>
-    ${warning}
-    `;
+  document.getElementById('result').innerText =
+    "Max Risk: ₹" + riskAmt.toFixed(0) +
+    "\nLots Allowed: " + qty;
 }
 </script>
 
