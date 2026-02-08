@@ -1,109 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Mitanshu Capital – NIFTY Risk Management</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mitanshu Capital | NIFTY Risk Management</title>
 
 <style>
 body{
     margin:0;
-    font-family: 'Segoe UI', sans-serif;
-    background: radial-gradient(circle at top, #0f2027, #000);
+    font-family:Segoe UI, sans-serif;
+    background:#07161f;
     color:#fff;
 }
 header{
     text-align:center;
-    padding:20px;
+    padding:15px;
+    font-weight:bold;
+    font-size:22px;
+    letter-spacing:1px;
 }
-header h1{
-    font-size:28px;
-    letter-spacing:2px;
-    margin:0;
+.sub{
+    font-size:12px;
+    color:#00c8ff;
 }
-header span{
-    font-size:13px;
-    color:#00e0ff;
-}
-
 .container{
     max-width:420px;
     margin:auto;
     padding:15px;
 }
 .card{
-    background:#0b1c26;
-    border-radius:15px;
+    background:#0b2432;
+    border-radius:16px;
     padding:15px;
     margin-bottom:15px;
 }
-.card h2{
+h2{
     text-align:center;
+    margin-bottom:15px;
     font-size:18px;
-    margin-bottom:10px;
 }
-
 .input-group{
     margin-bottom:12px;
 }
 label{
     font-size:13px;
-    opacity:0.9;
 }
 .control{
     display:flex;
-    gap:5px;
+    align-items:center;
+    gap:8px;
 }
 .control button{
-    width:40px;
+    width:36px;
+    height:36px;
     border:none;
-    border-radius:8px;
-    background:#122c3b;
-    color:#00e0ff;
+    border-radius:10px;
+    background:#12394d;
+    color:#00c8ff;
     font-size:20px;
 }
 .control input{
     flex:1;
+    height:40px;
+    border:none;
+    border-radius:10px;
     text-align:center;
     font-size:16px;
-    border:none;
-    border-radius:8px;
-    padding:10px;
 }
-
 .calculate{
     width:100%;
     padding:12px;
     background:linear-gradient(90deg,#00ff99,#00cc66);
     border:none;
-    border-radius:12px;
+    border-radius:14px;
     font-size:16px;
     font-weight:bold;
 }
-
-.result{
+.result-box{
+    margin-top:15px;
+    background:#081a24;
+    padding:12px;
+    border-radius:12px;
     font-size:14px;
-    line-height:1.7;
 }
-.profit{color:#00ff88;}
-.loss{color:#ff4d4d;}
-
+.result-line{
+    margin:6px 0;
+}
+.profit{
+    color:#00ff88;
+    font-weight:bold;
+}
+.loss{
+    color:#ff4d4d;
+    font-weight:bold;
+}
+.tabs{
+    position:fixed;
+    bottom:0;
+    width:100%;
+    background:#06131b;
+    display:flex;
+    justify-content:space-around;
+    padding:10px 0;
+}
+.tab{
+    font-size:14px;
+    color:#aaa;
+}
+.tab.active{
+    color:#00ff99;
+}
 .links a{
     display:block;
     text-align:center;
     margin-top:10px;
     padding:10px;
-    border-radius:10px;
+    border-radius:12px;
     text-decoration:none;
     color:#fff;
 }
 .whatsapp{background:#25D366;}
 .telegram{background:#0088cc;}
-
 footer{
     text-align:center;
     font-size:12px;
     opacity:0.7;
+    margin-bottom:60px;
 }
 </style>
 </head>
@@ -111,11 +133,11 @@ footer{
 <body>
 
 <header>
-    <h1>MITANSHU CAPITAL™</h1>
-    <span>Professional Risk Management Systems</span>
+MITANSHU CAPITAL<br>
+<span class="sub">Professional Risk Management System</span>
 </header>
 
-<div class="container">
+<div class="container" id="homeTab">
 
 <div class="card">
 <h2>NIFTY RISK MANAGEMENT SYSTEM</h2>
@@ -123,61 +145,51 @@ footer{
 <div class="input-group">
 <label>Capital (₹)</label>
 <div class="control">
-<button onclick="change('capital',-10000)">−</button>
-<input id="capital" value="100000"/>
-<button onclick="change('capital',10000)">+</button>
+<button onclick="step('capital',-10000)">−</button>
+<input id="capital" value="100000">
+<button onclick="step('capital',10000)">+</button>
 </div>
 </div>
 
 <div class="input-group">
 <label>Risk % per Trade</label>
 <div class="control">
-<button onclick="change('risk',-0.5)">−</button>
-<input id="risk" value="1"/>
-<button onclick="change('risk',0.5)">+</button>
+<button onclick="step('risk',-1)">−</button>
+<input id="risk" value="1">
+<button onclick="step('risk',1)">+</button>
 </div>
 </div>
 
 <div class="input-group">
 <label>NIFTY Lot Size</label>
 <div class="control">
-<button onclick="lot(-1)">−</button>
-<input id="lot" value="65"/>
-<button onclick="lot(1)">+</button>
+<button onclick="lotChange(-1)">−</button>
+<input id="lot" value="65">
+<button onclick="lotChange(1)">+</button>
 </div>
 </div>
 
 <div class="input-group">
 <label>Entry Price</label>
 <div class="control">
-<button onclick="change('entry',-5)">−</button>
-<input id="entry" value="100"/>
-<button onclick="change('entry',5)">+</button>
+<button onclick="step('entry',-5)">−</button>
+<input id="entry" value="100">
+<button onclick="step('entry',5)">+</button>
 </div>
 </div>
 
 <div class="input-group">
 <label>Stop Loss (Points)</label>
 <div class="control">
-<button onclick="change('sl',-1)">−</button>
-<input id="sl" value="10"/>
-<button onclick="change('sl',1)">+</button>
+<button onclick="step('sl',-1)">−</button>
+<input id="sl" value="10">
+<button onclick="step('sl',1)">+</button>
 </div>
 </div>
 
-<button class="calculate" onclick="calculate()">Calculate Trade</button>
+<button class="calculate" onclick="calculateTrade()">Calculate Trade</button>
 
-<div class="result" id="output"></div>
-</div>
-
-<div class="card">
-<h2>Risk Management (Short Guide)</h2>
-<p>
-• Capital ka sirf <b>1–2%</b> risk karo.<br>
-• Example: ₹1,00,000 capital → max loss ₹1,000.<br>
-• SL fixed ho to emotion control hota hai.<br>
-• Risk Reward Strategy = Loss chhota, profit bada.
-</p>
+<div class="result-box" id="result"></div>
 </div>
 
 <div class="links">
@@ -185,40 +197,98 @@ footer{
 <a class="telegram" href="https://t.me/mitanshucapital">Telegram Channel</a>
 </div>
 
-<footer>
-📞 Contact: 9624304653
-</footer>
+<footer>📞 Contact: 9624304653</footer>
+</div>
 
+<!-- Risk Tab -->
+<div class="container" id="riskTab" style="display:none">
+<div class="card">
+<h2>Risk Management (Short Guide)</h2>
+<p>
+• Capital ka sirf <b>1–2%</b> risk karo.<br>
+• Example: ₹1,00,000 → max loss ₹1,000.<br>
+• SL fixed ho to emotion control hota hai.<br>
+• Risk Reward Strategy = Loss chhota, profit bada.
+</p>
+</div>
+</div>
+
+<!-- Profile Tab -->
+<div class="container" id="profileTab" style="display:none">
+<div class="card">
+<h2>Mitanshu Capital</h2>
+<p>
+Professional NIFTY option risk management system.<br>
+Focus: Capital protection & consistency.
+</p>
+</div>
+</div>
+
+<!-- Bottom Tabs -->
+<div class="tabs">
+<div class="tab active" onclick="showTab('home')">Home</div>
+<div class="tab" onclick="showTab('risk')">Risk</div>
+<div class="tab" onclick="showTab('profile')">Profile</div>
 </div>
 
 <script>
-const lotSizes=[65,130,195,260,325];
+const lots=[65,130,195,260,325];
 
-function change(id,val){
+function step(id,val){
     let el=document.getElementById(id);
     el.value=Math.max(0,Number(el.value)+val);
 }
 
-function lot(dir){
+function lotChange(dir){
     let el=document.getElementById('lot');
-    let idx=lotSizes.indexOf(Number(el.value));
-    idx=Math.max(0,Math.min(lotSizes.length-1,idx+dir));
-    el.value=lotSizes[idx];
+    let i=lots.indexOf(Number(el.value));
+    i=Math.max(0,Math.min(lots.length-1,i+dir));
+    el.value=lots[i];
 }
 
-function calculate(){
-    let cap=capital.value;
-    let riskAmt=cap*(risk.value/100);
-    let loss=sl.value*lot.value;
-    let profit=loss*2;
+function calculateTrade(){
+    let capital=Number(capitalEl.value||capital.value);
+}
 
-    output.innerHTML=`
-    <b>Strategy:</b> Risk Reward Strategy<br>
-    <b>Lots Allowed:</b> 1<br>
-    <span class="loss">- Max Loss: ₹${loss}</span><br>
-    <span class="profit">+ Max Profit: ₹${profit}</span>
+function calculateTrade(){
+    const capital=Number(document.getElementById("capital").value);
+    const risk=Number(document.getElementById("risk").value);
+    const lot=Number(document.getElementById("lot").value);
+    const entry=Number(document.getElementById("entry").value);
+    const sl=Number(document.getElementById("sl").value);
+
+    if(!capital || !risk || !lot || !sl) return;
+
+    const riskAmt=capital*risk/100;
+    const lossPerLot=sl*lot;
+    const lotsAllowed=Math.max(1,Math.floor(riskAmt/lossPerLot));
+    const maxLoss=lossPerLot*lotsAllowed;
+    const targetPoints=sl*2;
+    const targetPrice=entry+targetPoints;
+    const maxProfit=targetPoints*lot*lotsAllowed;
+
+    document.getElementById("result").innerHTML=`
+    <div class="result-line"><b>Strategy:</b> Risk Reward Strategy</div>
+    <div class="result-line"><b>Lots Allowed:</b> ${lotsAllowed}</div>
+    <div class="result-line loss">- Max Risk (SL Hit): ₹${maxLoss}</div>
+    <div class="result-line"><b>Target Points:</b> ${targetPoints}</div>
+    <div class="result-line"><b>Target Price:</b> ${targetPrice}</div>
+    <div class="result-line profit">+ Max Profit (Target Hit): ₹${maxProfit}</div>
     `;
 }
+
+function showTab(tab){
+    homeTab.style.display="none";
+    riskTab.style.display="none";
+    profileTab.style.display="none";
+
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+
+    if(tab==="home"){homeTab.style.display="block";tabs[0].classList.add("active")}
+    if(tab==="risk"){riskTab.style.display="block";tabs[1].classList.add("active")}
+    if(tab==="profile"){profileTab.style.display="block";tabs[2].classList.add("active")}
+}
+const tabs=document.querySelectorAll(".tab");
 </script>
 
 </body>
